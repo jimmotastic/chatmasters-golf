@@ -1,159 +1,297 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ChatMasters Golf - Live Leaderboard</title>
-    <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 20px;
-        }
-        .container {
-            background: white;
-            border-radius: 12px;
-            padding: 40px;
-            max-width: 600px;
-            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
-        }
-        h1 {
-            color: #333;
-            margin-bottom: 10px;
-            font-size: 2.5em;
-        }
-        .subtitle {
-            color: #666;
-            margin-bottom: 30px;
-            font-size: 1.1em;
-        }
-        .api-section {
-            background: #f5f5f5;
-            padding: 20px;
-            border-radius: 8px;
-            margin: 20px 0;
-        }
-        .api-title {
-            font-weight: 600;
-            color: #333;
-            margin-bottom: 10px;
-        }
-        code {
-            background: #fff;
-            padding: 2px 6px;
-            border-radius: 4px;
-            font-family: 'Monaco', monospace;
-            color: #d63384;
-        }
-        .code-block {
-            background: #2d2d2d;
-            color: #f8f8f2;
-            padding: 15px;
-            border-radius: 6px;
-            overflow-x: auto;
-            margin: 10px 0;
-            font-family: monospace;
-            font-size: 0.9em;
-            line-height: 1.4;
-        }
-        .button-group {
-            display: flex;
-            gap: 10px;
-            margin-top: 30px;
-            flex-wrap: wrap;
-        }
-        a.btn {
-            display: inline-block;
-            padding: 12px 24px;
-            background: #667eea;
-            color: white;
-            text-decoration: none;
-            border-radius: 6px;
-            font-weight: 500;
-            transition: background 0.3s;
-        }
-        a.btn:hover {
-            background: #5568d3;
-        }
-        a.btn.secondary {
-            background: #6c757d;
-        }
-        a.btn.secondary:hover {
-            background: #5a6268;
-        }
-        .tournament-info {
-            border-top: 2px solid #667eea;
-            padding-top: 20px;
-            margin-top: 20px;
-        }
-        .info-row {
-            display: flex;
-            justify-content: space-between;
-            padding: 8px 0;
-            border-bottom: 1px solid #eee;
-        }
-        .info-label {
-            color: #666;
-            font-weight: 500;
-        }
-        .info-value {
-            color: #333;
-            font-weight: 600;
-        }
-    </style>
-</head>
-<body>
-    <div class="container">
-        <h1>⛳ ChatMasters</h1>
-        <p class="subtitle">Real-Time Golf Tournament Leaderboard</p>
-
-        <div class="tournament-info">
-            <div class="info-row">
-                <span class="info-label">Tournament</span>
-                <span class="info-value">Texas Children's Houston Open 2026</span>
+    <head>
+            <meta charset="UTF-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <title>ChatMasters Golf - Live Leaderboard</title>
+        <style>
+                    * { margin: 0; padding: 0; box-sizing: border-box; }
+                    body {
+                                    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+                                    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+                                    min-height: 100vh;
+                                    padding: 20px;
+                    }
+                    .container {
+                                    max-width: 900px;
+                                    margin: 0 auto;
+                    }
+                    header {
+                                    text-align: center;
+                                    color: white;
+                                    margin-bottom: 24px;
+                    }
+                    header h1 {
+                                    font-size: 2.2em;
+                                    margin-bottom: 4px;
+                    }
+                    .tournament-info {
+                                    font-size: 1.1em;
+                                    opacity: 0.9;
+                    }
+                    .meta-bar {
+                                    display: flex;
+                                    justify-content: space-between;
+                                    align-items: center;
+                                    background: rgba(255,255,255,0.15);
+                                    border-radius: 8px;
+                                    padding: 10px 16px;
+                                    color: white;
+                                    font-size: 0.9em;
+                                    margin-bottom: 16px;
+                                    flex-wrap: wrap;
+                                    gap: 8px;
+                    }
+                    .status-badge {
+                                    background: #48bb78;
+                                    color: white;
+                                    padding: 3px 10px;
+                                    border-radius: 12px;
+                                    font-weight: 600;
+                                    font-size: 0.85em;
+                                    text-transform: uppercase;
+                    }
+                    .status-badge.completed {
+                                    background: #a0aec0;
+                    }
+                    .card {
+                                    background: white;
+                                    border-radius: 12px;
+                                    box-shadow: 0 4px 24px rgba(0,0,0,0.12);
+                overflow: hidden;
+                                    margin-bottom: 20px;
+                    }
+                    .card-title {
+                                    padding: 16px 20px;
+                                    font-weight: 700;
+                                    font-size: 1.1em;
+                                    color: #2d3748;
+                                    border-bottom: 2px solid #edf2f7;
+                    }
+                    table {
+                                    width: 100%;
+                                    border-collapse: collapse;
+                    }
+                    thead th {
+                                    background: #f7fafc;
+                                    padding: 10px 12px;
+                                    text-align: left;
+                                    font-size: 0.8em;
+                                    text-transform: uppercase;
+                                    color: #718096;
+                                    font-weight: 600;
+                                    letter-spacing: 0.05em;
+                    }
+                    thead th:first-child { padding-left: 20px; }
+                    tbody tr {
+                                    border-bottom: 1px solid #edf2f7;
+                                    transition: background 0.15s;
+                    }
+                    tbody tr:hover { background: #f7fafc; }
+                    tbody td {
+                                    padding: 12px;
+                                    font-size: 0.95em;
+                                    color: #2d3748;
+                    }
+                    tbody td:first-child { padding-left: 20px; }
+                    .pos { font-weight: 700; color: #718096; min-width: 30px; }
+                    .player-name { font-weight: 600; }
+                    .score {
+                                    font-weight: 700;
+                                    font-size: 1.05em;
+                    }
+                    .score.under { color: #c53030; }
+                    .score.over { color: #2b6cb0; }
+                    .score.even { color: #718096; }
+                    .thru { color: #718096; font-size: 0.9em; }
+                    .strokes { color: #a0aec0; font-size: 0.9em; }
+                    .today { font-weight: 600; font-size: 0.9em; }
+                    .today.under { color: #c53030; }
+                    .today.over { color: #2b6cb0; }
+                    .today.even { color: #718096; }
+                    tr.top3 td { background: #fffff0; }
+                    .updates-card {
+                                    background: white;
+                                    border-radius: 12px;
+                                    box-shadow: 0 4px 24px rgba(0,0,0,0.12);
+                                    padding: 20px;
+                                    margin-bottom: 20px;
+                    }
+                    .updates-card h3 {
+                                    margin-bottom: 12px;
+                                    color: #2d3748;
+                    }
+                    .update-item {
+                                    padding: 8px 0;
+                                    border-bottom: 1px solid #edf2f7;
+                                    font-size: 0.9em;
+                                    color: #4a5568;
+                    }
+                    .update-item:last-child { border-bottom: none; }
+                    .foursome-card {
+                                    background: white;
+                                    border-radius: 12px;
+                                    box-shadow: 0 4px 24px rgba(0,0,0,0.12);
+                                    overflow: hidden;
+                                    margin-bottom: 20px;
+                    }
+                    .foursome-header {
+                                    padding: 16px 20px;
+                                    font-weight: 700;
+                                    font-size: 1.1em;
+                                    color: #2d3748;
+                                    border-bottom: 2px solid #edf2f7;
+                    }
+                    .team-total {
+                                    float: right;
+                                    font-size: 0.9em;
+                                    color: #718096;
+                    }
+                    .team-total span {
+                                    font-weight: 700;
+                                    font-size: 1.1em;
+                    }
+                    .loading {
+                                    text-align: center;
+                                    color: white;
+                                    padding: 60px 20px;
+                                    font-size: 1.2em;
+                    }
+                    .error-msg {
+                                    text-align: center;
+                                    color: #fc8181;
+                                    background: rgba(255,255,255,0.1);
+                                    border-radius: 8px;
+                                    padding: 20px;
+                    }
+                    footer {
+                                    text-align: center;
+                                    color: rgba(255,255,255,0.7);
+                                    font-size: 0.85em;
+                                    padding: 20px;
+                    }
+                    @media (max-width: 600px) {
+                                    header h1 { font-size: 1.5em; }
+                                    thead th, tbody td { padding: 8px 6px; font-size: 0.82em; }
+                                    thead th:first-child, tbody td:first-child { padding-left: 10px; }
+                                    .strokes-col { display: none; }
+                    }
+                </style>
+    </head>
+    <body>
+            <div class="container">
+                        <header>
+                                        <h1>&#9971; ChatMasters Golf</h1>
+                                    <div class="tournament-info" id="tournamentInfo">Loading...</div>div>
+                        </header>
+                    <div class="meta-bar" id="metaBar" style="display:none;">
+                                <div><strong id="roundInfo"></strong>strong> &middot; <span id="courseInfo"></span>span></div>
+                                <div><span class="status-badge" id="statusBadge"></span>span></div>
+                                <div>Updated: <span id="lastUpdated"></span>span></div>
+                    </div>
+                    <div id="content">
+                                    <div class="loading" id="loadingMsg">Loading leaderboard...</div>
+                    </div>
+                        <footer>ChatMasters Golf &middot; Live scores from the API</footer>
             </div>
-            <div class="info-row">
-                <span class="info-label">Status</span>
-                <span class="info-value">Completed</span>
-            </div>
-            <div class="info-row">
-                <span class="info-label">Round</span>
-                <span class="info-value">Round 4</span>
-            </div>
-        </div>
+    
+        <script>
+                    async function fetchLeaderboard() {
+                                    try {
+                                                        const res = await fetch('/api/masters-live');
+                                                        if (!res.ok) throw new Error('API returned ' + res.status);
+                                                        const data = await res.json();
+                                                        renderPage(data);
+                                    } catch (err) {
+                                                        document.getElementById('content').innerHTML =
+                                                                                '<div class="error-msg">Failed to load leaderboard: ' + err.message + '</div>';
+                                    }
+                    }
 
-        <div class="api-section">
-            <div class="api-title">📊 Full Leaderboard</div>
-            <div class="code-block">GET /api/masters-live</div>
-            <a href="/api/masters-live" class="btn" style="display: inline-block; margin-top: 10px;">View Leaderboard</a>
-        </div>
+                    function scoreClass(scoreNum) {
+                                    if (scoreNum < 0) return 'under';
+                                    if (scoreNum > 0) return 'over';
+                                    return 'even';
+                    }
 
-        <div class="api-section">
-            <div class="api-title">👥 Foursome Team Scores</div>
-            <div class="code-block">GET /api/masters-live?foursome=Player1,Player2,Player3,Player4</div>
-            <p style="margin-top: 10px; color: #666; font-size: 0.9em;">Replace player names with actual tournament participants</p>
-        </div>
+                    function renderPage(data) {
+                                    // Header
+                                    document.getElementById('tournamentInfo').textContent = data.tournament;
+                                    document.getElementById('roundInfo').textContent = data.round;
+                                    document.getElementById('courseInfo').textContent = data.course || '';
+                                    document.getElementById('statusBadge').textContent = data.status;
+                                    if (data.status === 'completed') {
+                                                        document.getElementById('statusBadge').classList.add('completed');
+                                    }
+                                    if (data.lastUpdated) {
+                                                        const d = new Date(data.lastUpdated);
+                                                        document.getElementById('lastUpdated').textContent = d.toLocaleTimeString();
+                                    }
+                                    document.getElementById('metaBar').style.display = 'flex';
 
-        <div class="api-section">
-            <div class="api-title">🔄 Manual Sync</div>
-            <div class="code-block">POST /api/sync-scores</div>
-            <p style="margin-top: 10px; color: #666; font-size: 0.9em;">Trigger score synchronization manually</p>
-        </div>
+                                    let html = '';
 
-        <div class="button-group">
-            <a href="/api/masters-live" class="btn">Live Leaderboard →</a>
-            <a href="https://github.com/jimmotastic/chatmasters-golf" class="btn secondary">GitHub Repo →</a>
-        </div>
+                                    // Leaderboard table
+                                    html += '<div class="card">';
+                                    html += '<div class="card-title">Leaderboard</div>';
+                                    html += '<table><thead><tr>';
+                                    html += '<th>Pos</th><th>Player</th><th>Score</th><th>Today</th><th>Thru</th><th class="strokes-col">Strokes</th>';
+                                    html += '</tr></thead><tbody>';
+                                    data.leaderboard.forEach(function(p, i) {
+                                                        const rowClass = i < 3 ? ' class="top3"' : '';
+                    html += '<tr' + rowClass + '>';
+                                                        html += '<td class="pos">' + (p.position === data.leaderboard[i > 0 ? i - 1 : 0].position && i > 0 ? '' : p.position) + '</td>';
+                                                        html += '<td class="player-name">' + p.fullName + '</td>';
+                                                        html += '<td class="score ' + scoreClass(p.scoreNum) + '">' + p.score + '</td>';
+                                                        html += '<td class="today ' + scoreClass(p.scoreNum) + '">' + (p.today || '-') + '</td>';
+                                                                             html += '<td class="thru">' + (p.thru || '-') + '</td>';
+                                                        html += '<td class="strokes strokes-col">' + (p.totalStrokes || '-') + '</td>';
+                                                        html += '</tr>';
+                                    });
+                                    html += '</tbody></table></div>';
 
-        <div style="margin-top: 40px; padding-top: 20px; border-top: 1px solid #eee; text-align: center; color: #999; font-size: 0.9em;">
-            <p>Built with Netlify Functions + GitHub Auto-Deploy</p>
-            <p>Next Tournament? Just edit the code and push to GitHub. 🚀</p>
-        </div>
-    </div>
-</body>
-</html>
+                                    // Foursome
+                                    if (data.foursome && data.foursome.players && data.foursome.players.length > 0) {
+                                                        html += '<div class="foursome-card">';
+                                                        html += '<div class="foursome-header">Your Foursome';
+                                                        html += '<span class="team-total">Team: <span class="score ' + scoreClass(data.foursome.teamTotalNum) + '">' + data.foursome.teamTotal + '</span></span>';
+                                                        html += '</div>';
+                                                        html += '<table><thead><tr>';
+                                                        html += '<th>Player</th><th>Score</th><th>Thru</th><th class="strokes-col">Strokes</th>';
+                                                        html += '</tr></thead><tbody>';
+                                                        data.foursome.players.forEach(function(p) {
+                                                                                html += '<tr>';
+                                                                                html += '<td class="player-name">' + p.fullName + '</td>';
+                                                                                html += '<td class="score ' + scoreClass(p.scoreNum) + '">' + p.score + '</td>';
+                                                                                html += '<td class="thru">' + (p.thru || '-') + '</td>';
+                                                                                html += '<td class="strokes strokes-col">' + (p.totalStrokes || '-') + '</td>';
+                                                                                html += '</tr>';
+                                                        });
+                                                        html += '</tbody></table></div>';
+                                    }
+
+                                    // Updates
+                                    if (data.updates && data.updates.length > 0) {
+                                                        html += '<div class="updates-card">';
+                                                        html += '<h3>Live Updates</h3>';
+                                                        data.updates.forEach(function(u) {
+                                                                                html += '<div class="update-item">' + u.text + '</div>';
+                                                        });
+                                                        html += '</div>';
+                                    }
+
+                                    document.getElementById('content').innerHTML = html;
+                    }
+
+                    fetchLeaderboard();
+                    // Auto-refresh every 60 seconds
+                    setInterval(fetchLeaderboard, 60000);
+        </script>
+    </body>
+</html>html>
+        </script></footer>
+                    </div></div></h1>
+                        </header>
+    </body>
+        </style></title>
+    </head>
