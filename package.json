@@ -1,0 +1,9 @@
+{
+  "name": "chatmasters-golf",
+  "version": "1.0.0",
+  "description": "ChatMasters fantasy golf game",
+  "type": "module",
+  "dependencies": {
+    "@netlify/blobs": "^6.0.0"
+  }
+}
