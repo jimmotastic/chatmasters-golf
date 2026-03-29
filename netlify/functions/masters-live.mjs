@@ -1,6 +1,7 @@
-// Texas Children's Houston Open Live Data API
-// GitHub: jimmotastic/chatmasters-golf
-// Updated: 2026-03-29 17:00 UTC
+// Texas Children's Houston Open - Round 4 FINAL SCORES
+// Generated: 2026-03-29 17:05 UTC
+// Source: https://github.com/jimmotastic/chatmasters-golf
+
 import { getStore } from '@netlify/blobs'
 
 const PLAYERS = [
@@ -31,128 +32,56 @@ const PLAYERS = [
   { name: "Kitayama", fullName: "Kurt Kitayama", rank: 25 },
 ];
 
+// ROUND 4 FINAL - ESPN 2026-03-29
+const ROUND_4_SCORES = {
+  "woodland": { playerName: "Woodland", fullName: "Gary Woodland", totalStrokes: 192, toPar: -18, thru: "F" },
+  "højgaard": { playerName: "Højgaard", fullName: "Nicolai Højgaard", totalStrokes: 193, toPar: -17, thru: "F" },
+  "thorbjornsen": { playerName: "Thorbjornsen", fullName: "Michael Thorbjornsen", totalStrokes: 198, toPar: -12, thru: "F" },
+  "lee": { playerName: "Lee", fullName: "Min Woo Lee", totalStrokes: 198, toPar: -12, thru: "F" },
+  "stevens": { playerName: "Stevens", fullName: "Sam Stevens", totalStrokes: 199, toPar: -11, thru: "F" },
+  "day": { playerName: "Day", fullName: "Jason Day", totalStrokes: 199, toPar: -11, thru: "F" },
+  "yellamaraju": { playerName: "Yellamaraju", fullName: "Sudarshan Yellamaraju", totalStrokes: 200, toPar: -10, thru: "F" },
+  "theegala": { playerName: "Theegala", fullName: "Sahith Theegala", totalStrokes: 200, toPar: -10, thru: "F" },
+  "waring": { playerName: "Waring", fullName: "Paul Waring", totalStrokes: 200, toPar: -10, thru: "F" },
+  "keefer": { playerName: "Keefer", fullName: "Johnny Keefer", totalStrokes: 201, toPar: -9, thru: "F" },
+  "scott": { playerName: "Scott", fullName: "Adam Scott", totalStrokes: 201, toPar: -9, thru: "F" },
+  "knapp": { playerName: "Knapp", fullName: "Jake Knapp", totalStrokes: 205, toPar: -8, thru: "F" },
+  "vilips": { playerName: "Vilips", fullName: "Karl Vilips", totalStrokes: 204, toPar: -8, thru: "F" },
+  "fisk": { playerName: "Fisk", fullName: "Steven Fisk", totalStrokes: 204, toPar: -8, thru: "F" },
+  "hoey": { playerName: "Hoey", fullName: "Rico Hoey", totalStrokes: 203, toPar: -8, thru: "F" },
+  "ramey": { playerName: "Ramey", fullName: "Chad Ramey", totalStrokes: 203, toPar: -8, thru: "F" },
+  "mccarthy": { playerName: "McCarthy", fullName: "Denny McCarthy", totalStrokes: 203, toPar: -8, thru: "F" },
+  "hossler": { playerName: "Hossler", fullName: "Beau Hossler", totalStrokes: 203, toPar: -8, thru: "F" },
+  "dou": { playerName: "Dou", fullName: "Zecheng Dou", totalStrokes: 202, toPar: -8, thru: "F" },
+  "burgoon": { playerName: "Burgoon", fullName: "Bronson Burgoon", totalStrokes: 202, toPar: -8, thru: "F" },
+  "jaeger": { playerName: "Jaeger", fullName: "Stephan Jaeger", totalStrokes: 202, toPar: -8, thru: "F" },
+  "vegas": { playerName: "Vegas", fullName: "Jhonattan Vegas", totalStrokes: 202, toPar: -8, thru: "F" },
+  "gotterup": { playerName: "Gotterup", fullName: "Chris Gotterup", totalStrokes: 202, toPar: -8, thru: "F" },
+  "burns": { playerName: "Burns", fullName: "Sam Burns", totalStrokes: 206, toPar: -7, thru: "F" },
+  "kitayama": { playerName: "Kitayama", fullName: "Kurt Kitayama", totalStrokes: 210, toPar: -2, thru: "F" },
+};
+
 function formatScore(score) {
   if (score === 0) return "E";
   if (score > 0) return `+${score}`;
   return `${score}`;
 }
 
-// Round 4 Final Scores from ESPN 2026-03-29
-function generateRound4Scores() {
-  const now = new Date().toISOString();
-  const seedData = [
-    { name: "Woodland", hole: 18, strokes: 192, toPar: -18, thru: "F" },
-    { name: "Højgaard", hole: 18, strokes: 193, toPar: -17, thru: "F" },
-    { name: "Thorbjornsen", hole: 18, strokes: 198, toPar: -12, thru: "F" },
-    { name: "Lee", hole: 18, strokes: 198, toPar: -12, thru: "F" },
-    { name: "Stevens", hole: 18, strokes: 199, toPar: -11, thru: "F" },
-    { name: "Day", hole: 18, strokes: 199, toPar: -11, thru: "F" },
-    { name: "Yellamaraju", hole: 18, strokes: 200, toPar: -10, thru: "F" },
-    { name: "Theegala", hole: 18, strokes: 200, toPar: -10, thru: "F" },
-    { name: "Waring", hole: 18, strokes: 200, toPar: -10, thru: "F" },
-    { name: "Keefer", hole: 18, strokes: 201, toPar: -9, thru: "F" },
-    { name: "Scott", hole: 18, strokes: 201, toPar: -9, thru: "F" },
-    { name: "Knapp", hole: 18, strokes: 205, toPar: -8, thru: "F" },
-    { name: "Vilips", hole: 18, strokes: 204, toPar: -8, thru: "F" },
-    { name: "Fisk", hole: 18, strokes: 204, toPar: -8, thru: "F" },
-    { name: "Hoey", hole: 18, strokes: 203, toPar: -8, thru: "F" },
-    { name: "Ramey", hole: 18, strokes: 203, toPar: -8, thru: "F" },
-    { name: "McCarthy", hole: 18, strokes: 203, toPar: -8, thru: "F" },
-    { name: "Hossler", hole: 18, strokes: 203, toPar: -8, thru: "F" },
-    { name: "Dou", hole: 18, strokes: 202, toPar: -8, thru: "F" },
-    { name: "Burgoon", hole: 18, strokes: 202, toPar: -8, thru: "F" },
-    { name: "Jaeger", hole: 18, strokes: 202, toPar: -8, thru: "F" },
-    { name: "Vegas", hole: 18, strokes: 202, toPar: -8, thru: "F" },
-    { name: "Gotterup", hole: 18, strokes: 202, toPar: -8, thru: "F" },
-    { name: "Burns", hole: 18, strokes: 206, toPar: -7, thru: "F" },
-    { name: "Kitayama", hole: 18, strokes: 210, toPar: -2, thru: "F" },
-  ];
-
-  const scores = { _lastUpdated: now };
-  for (const p of seedData) {
-    scores[p.name.toLowerCase()] = {
-      playerName: p.name,
-      currentHole: p.hole,
-      holeScores: [],
-      totalStrokes: p.strokes,
-      toPar: p.toPar,
-      thru: p.thru,
-      status: "completed",
-      lastUpdated: now,
-    };
-  }
-  return scores;
-}
-
-async function getRealScores() {
-  try {
-    const store = getStore({ name: 'tournament-scores', consistency: 'strong' });
-    let scores = await store.get('player-scores', { type: 'json' });
-    let status = await store.get('tournament-status', { type: 'json' });
-
-    // Use Blobs data if available and recent (less than 1 hour old)
-    const blobsData = scores && scores._lastUpdated;
-    const isFresh = blobsData && (new Date() - new Date(blobsData) < 3600000);
-    
-    if (!isFresh) {
-      scores = generateRound4Scores();
-      status = {
-        status: 'completed',
-        round: 'Round 4',
-        coursePar: 72,
-        lastUpdated: new Date().toISOString(),
-        winner: {
-          playerName: "Woodland",
-          fullName: "Gary Woodland",
-          totalStrokes: 192,
-          totalScore: -18
-        },
-      };
-      
-      // Try to cache in Blobs
-      try {
-        await store.setJSON('player-scores', scores);
-        await store.setJSON('tournament-status', status);
-      } catch (e) {
-        console.log('Blobs write failed, serving generated data');
-      }
-    }
-
-    return { scores: scores || {}, status: status || null };
-  } catch (error) {
-    return { 
-      scores: generateRound4Scores(), 
-      status: {
-        status: 'completed',
-        round: 'Round 4',
-        coursePar: 72,
-        lastUpdated: new Date().toISOString(),
-        winner: {
-          playerName: "Woodland",
-          fullName: "Gary Woodland",
-          totalStrokes: 192,
-          totalScore: -18
-        }
-      }
-    };
-  }
-}
-
-function buildLeaderboard(scores) {
+function buildLeaderboard() {
   const leaderboard = PLAYERS.map((player) => {
     const key = player.name.toLowerCase();
-    const playerScore = scores[key];
+    const playerScore = ROUND_4_SCORES[key];
 
     if (playerScore) {
       return {
         name: player.name,
         fullName: player.fullName,
         rank: player.rank,
-        currentHole: playerScore.currentHole || 0,
-        totalScore: playerScore.toPar || 0,
-        totalStrokes: playerScore.totalStrokes || 0,
-        thru: playerScore.thru || '0',
-        today: playerScore.toPar || 0,
+        currentHole: 18,
+        totalScore: playerScore.toPar,
+        totalStrokes: playerScore.totalStrokes,
+        thru: playerScore.thru,
+        today: playerScore.toPar,
       };
     }
 
@@ -186,35 +115,23 @@ function buildLeaderboard(scores) {
   return leaderboard;
 }
 
-function generateUpdates(leaderboard, status) {
+function generateUpdates(leaderboard) {
   const updates = [];
-  const activePlayers = leaderboard.filter(p => p.thru !== '-' && p.thru !== '0');
+  const leader = leaderboard[0];
 
-  if (status && status.status === 'completed' && status.winner) {
+  updates.push({
+    type: "highlight",
+    text: `🏆 TOURNAMENT COMPLETE! ${leader.fullName} wins with ${leader.totalStrokes} strokes at ${formatScore(leader.totalScore)}!`,
+    timestamp: new Date().toISOString(),
+  });
+
+  const runnerUp = leaderboard[1];
+  if (runnerUp) {
     updates.push({
-      type: "highlight",
-      text: `🏆 TOURNAMENT COMPLETE! ${status.winner.fullName} wins with ${status.winner.totalStrokes} strokes at ${formatScore(status.winner.totalScore)}!`,
+      type: "movement",
+      text: `${runnerUp.fullName} finishes 2nd at ${formatScore(runnerUp.totalScore)} (${runnerUp.totalStrokes} strokes).`,
       timestamp: new Date().toISOString(),
     });
-  }
-
-  if (activePlayers.length > 0) {
-    const leader = activePlayers[0];
-    updates.push({
-      type: "standings",
-      text: `${leader.fullName} leads at ${formatScore(leader.totalScore)} (${leader.totalStrokes} strokes).`,
-      timestamp: new Date().toISOString(),
-    });
-
-    const underPar = activePlayers.filter(p => p.totalScore < 0).slice(0, 3);
-    for (const p of underPar) {
-      if (p === leader) continue;
-      updates.push({
-        type: "movement",
-        text: `${p.fullName} is at ${formatScore(p.totalScore)} (${p.totalStrokes} strokes).`,
-        timestamp: new Date().toISOString(),
-      });
-    }
   }
 
   return updates;
@@ -223,28 +140,14 @@ function generateUpdates(leaderboard, status) {
 export default async (request) => {
   const url = new URL(request.url);
   const playersParam = url.searchParams.get("foursome");
-
-  const { scores, status } = await getRealScores();
-  const leaderboard = buildLeaderboard(scores);
-
-  const tournamentStatus = status || { 
-    status: 'completed', 
-    round: 'Round 4', 
-    coursePar: 72,
-    winner: {
-      playerName: "Woodland",
-      fullName: "Gary Woodland",
-      totalStrokes: 192,
-      totalScore: -18
-    }
-  };
+  const leaderboard = buildLeaderboard();
 
   const response = {
     tournament: "Texas Children's Houston Open 2026",
-    round: tournamentStatus.round || "Round 4",
+    round: "Round 4",
     course: "Memorial Park Golf Course",
-    status: tournamentStatus.status || 'completed',
-    lastUpdated: scores._lastUpdated || new Date().toISOString(),
+    status: "completed",
+    lastUpdated: new Date().toISOString(),
     leaderboard: leaderboard.map((p) => ({
       position: p.position,
       name: p.name,
@@ -256,12 +159,14 @@ export default async (request) => {
       currentHole: p.currentHole,
       today: formatScore(p.today),
     })),
-    updates: generateUpdates(leaderboard, tournamentStatus),
+    updates: generateUpdates(leaderboard),
+    winner: {
+      playerName: leaderboard[0].name,
+      fullName: leaderboard[0].fullName,
+      totalStrokes: leaderboard[0].totalStrokes,
+      totalScore: leaderboard[0].totalScore,
+    }
   };
-
-  if (tournamentStatus.status === 'completed' && tournamentStatus.winner) {
-    response.winner = tournamentStatus.winner;
-  }
 
   if (playersParam) {
     const foursomeNames = playersParam.split(",").map((n) => n.trim().toLowerCase());
