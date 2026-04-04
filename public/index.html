@@ -1,297 +1,240 @@
 <!DOCTYPE html>
-<html lang="en">
-    <head>
-            <meta charset="UTF-8">
-            <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Masters Tournament 2026 — Augusta National</title>
-        <style>
-                    * { margin: 0; padding: 0; box-sizing: border-box; }
-                    body {
-                                    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-                                    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-                                    min-height: 100vh;
-                                    padding: 20px;
-                    }
-                    .container {
-                                    max-width: 900px;
-                                    margin: 0 auto;
-                    }
-                    header {
-                                    text-align: center;
-                                    color: white;
-                                    margin-bottom: 24px;
-                    }
-                    header h1 {
-                                    font-size: 2.2em;
-                                    margin-bottom: 4px;
-                    }
-                    .tournament-info {
-                                    font-size: 1.1em;
-                                    opacity: 0.9;
-                    }
-                    .meta-bar {
-                                    display: flex;
-                                    justify-content: space-between;
-                                    align-items: center;
-                                    background: rgba(255,255,255,0.15);
-                                    border-radius: 8px;
-                                    padding: 10px 16px;
-                                    color: white;
-                                    font-size: 0.9em;
-                                    margin-bottom: 16px;
-                                    flex-wrap: wrap;
-                                    gap: 8px;
-                    }
-                    .status-badge {
-                                    background: #48bb78;
-                                    color: white;
-                                    padding: 3px 10px;
-                                    border-radius: 12px;
-                                    font-weight: 600;
-                                    font-size: 0.85em;
-                                    text-transform: uppercase;
-                    }
-                    .status-badge.completed {
-                                    background: #a0aec0;
-                    }
-                    .card {
-                                    background: white;
-                                    border-radius: 12px;
-                                    box-shadow: 0 4px 24px rgba(0,0,0,0.12);
-                overflow: hidden;
-                                    margin-bottom: 20px;
-                    }
-                    .card-title {
-                                    padding: 16px 20px;
-                                    font-weight: 700;
-                                    font-size: 1.1em;
-                                    color: #2d3748;
-                                    border-bottom: 2px solid #edf2f7;
-                    }
-                    table {
-                                    width: 100%;
-                                    border-collapse: collapse;
-                    }
-                    thead th {
-                                    background: #f7fafc;
-                                    padding: 10px 12px;
-                                    text-align: left;
-                                    font-size: 0.8em;
-                                    text-transform: uppercase;
-                                    color: #718096;
-                                    font-weight: 600;
-                                    letter-spacing: 0.05em;
-                    }
-                    thead th:first-child { padding-left: 20px; }
-                    tbody tr {
-                                    border-bottom: 1px solid #edf2f7;
-                                    transition: background 0.15s;
-                    }
-                    tbody tr:hover { background: #f7fafc; }
-                    tbody td {
-                                    padding: 12px;
-                                    font-size: 0.95em;
-                                    color: #2d3748;
-                    }
-                    tbody td:first-child { padding-left: 20px; }
-                    .pos { font-weight: 700; color: #718096; min-width: 30px; }
-                    .player-name { font-weight: 600; }
-                    .score {
-                                    font-weight: 700;
-                                    font-size: 1.05em;
-                    }
-                    .score.under { color: #c53030; }
-                    .score.over { color: #2b6cb0; }
-                    .score.even { color: #718096; }
-                    .thru { color: #718096; font-size: 0.9em; }
-                    .strokes { color: #a0aec0; font-size: 0.9em; }
-                    .today { font-weight: 600; font-size: 0.9em; }
-                    .today.under { color: #c53030; }
-                    .today.over { color: #2b6cb0; }
-                    .today.even { color: #718096; }
-                    tr.top3 td { background: #fffff0; }
-                    .updates-card {
-                                    background: white;
-                                    border-radius: 12px;
-                                    box-shadow: 0 4px 24px rgba(0,0,0,0.12);
-                                    padding: 20px;
-                                    margin-bottom: 20px;
-                    }
-                    .updates-card h3 {
-                                    margin-bottom: 12px;
-                                    color: #2d3748;
-                    }
-                    .update-item {
-                                    padding: 8px 0;
-                                    border-bottom: 1px solid #edf2f7;
-                                    font-size: 0.9em;
-                                    color: #4a5568;
-                    }
-                    .update-item:last-child { border-bottom: none; }
-                    .foursome-card {
-                                    background: white;
-                                    border-radius: 12px;
-                                    box-shadow: 0 4px 24px rgba(0,0,0,0.12);
-                                    overflow: hidden;
-                                    margin-bottom: 20px;
-                    }
-                    .foursome-header {
-                                    padding: 16px 20px;
-                                    font-weight: 700;
-                                    font-size: 1.1em;
-                                    color: #2d3748;
-                                    border-bottom: 2px solid #edf2f7;
-                    }
-                    .team-total {
-                                    float: right;
-                                    font-size: 0.9em;
-                                    color: #718096;
-                    }
-                    .team-total span {
-                                    font-weight: 700;
-                                    font-size: 1.1em;
-                    }
-                    .loading {
-                                    text-align: center;
-                                    color: white;
-                                    padding: 60px 20px;
-                                    font-size: 1.2em;
-                    }
-                    .error-msg {
-                                    text-align: center;
-                                    color: #fc8181;
-                                    background: rgba(255,255,255,0.1);
-                                    border-radius: 8px;
-                                    padding: 20px;
-                    }
-                    footer {
-                                    text-align: center;
-                                    color: rgba(255,255,255,0.7);
-                                    font-size: 0.85em;
-                                    padding: 20px;
-                    }
-                    @media (max-width: 600px) {
-                                    header h1 { font-size: 1.5em; }
-                                    thead th, tbody td { padding: 8px 6px; font-size: 0.82em; }
-                                    thead th:first-child, tbody td:first-child { padding-left: 10px; }
-                                    .strokes-col { display: none; }
-                    }
-                </style>
-    </head>
-    <body>
-            <div class="container">
-                        <header>
-                                        <h1>Masters Tournament 2026</h1>
-                                    <div class="tournament-info" id="tournamentInfo">Loading...</div>div>
-                        </header>
-                    <div class="meta-bar" id="metaBar" style="display:none;">
-                                <div><strong id="roundInfo"></strong>strong> &middot; <span id="courseInfo"></span>span></div>
-                                <div><span class="status-badge" id="statusBadge"></span>span></div>
-                                <div>Updated: <span id="lastUpdated"></span>span></div>
-                    </div>
-                    <div id="content">
-                                    <div class="loading" id="loadingMsg">Loading leaderboard...</div>
-                    </div>
-                        <footer>Masters Tournament 2026 &middot; Augusta National Golf Club &middot; April 9-12, 2026</footer>
-            </div>
-    
-        <script>
-                    async function fetchLeaderboard() {
-                                    try {
-                                                        const res = await fetch('/api/masters-live');
-                                                        if (!res.ok) throw new Error('API returned ' + res.status);
-                                                        const data = await res.json();
-                                                        renderPage(data);
-                                    } catch (err) {
-                                                        document.getElementById('content').innerHTML =
-                                                                                '<div class="error-msg">Failed to load leaderboard: ' + err.message + '</div>';
-                                    }
-                    }
 
-                    function scoreClass(scoreNum) {
-                                    if (scoreNum < 0) return 'under';
-                                    if (scoreNum > 0) return 'over';
-                                    return 'even';
-                    }
-
-                    function renderPage(data) {
-                                    // Header
-                                    document.getElementById('tournamentInfo').textContent = data.tournament;
-                                    document.getElementById('roundInfo').textContent = data.round;
-                                    document.getElementById('courseInfo').textContent = data.course || '';
-                                    document.getElementById('statusBadge').textContent = data.status;
-                                    if (data.status === 'completed') {
-                                                        document.getElementById('statusBadge').classList.add('completed');
-                                    }
-                                    if (data.lastUpdated) {
-                                                        const d = new Date(data.lastUpdated);
-                                                        document.getElementById('lastUpdated').textContent = d.toLocaleTimeString();
-                                    }
-                                    document.getElementById('metaBar').style.display = 'flex';
-
-                                    let html = '';
-
-                                    // Leaderboard table
-                                    html += '<div class="card">';
-                                    html += '<div class="card-title">Leaderboard</div>';
-                                    html += '<table><thead><tr>';
-                                    html += '<th>Pos</th><th>Player</th><th>Score</th><th>Today</th><th>Thru</th><th class="strokes-col">Strokes</th>';
-                                    html += '</tr></thead><tbody>';
-                                    data.leaderboard.forEach(function(p, i) {
-                                                        const rowClass = i < 3 ? ' class="top3"' : '';
-                    html += '<tr' + rowClass + '>';
-                                                        html += '<td class="pos">' + (p.position === data.leaderboard[i > 0 ? i - 1 : 0].position && i > 0 ? '' : p.position) + '</td>';
-                                                        html += '<td class="player-name">' + p.fullName + '</td>';
-                                                        html += '<td class="score ' + scoreClass(p.scoreNum) + '">' + p.score + '</td>';
-                                                        html += '<td class="today ' + scoreClass(p.scoreNum) + '">' + (p.today || '-') + '</td>';
-                                                                             html += '<td class="thru">' + (p.thru || '-') + '</td>';
-                                                        html += '<td class="strokes strokes-col">' + (p.totalStrokes || '-') + '</td>';
-                                                        html += '</tr>';
-                                    });
-                                    html += '</tbody></table></div>';
-
-                                    // Foursome
-                                    if (data.foursome && data.foursome.players && data.foursome.players.length > 0) {
-                                                        html += '<div class="foursome-card">';
-                                                        html += '<div class="foursome-header">Your Foursome';
-                                                        html += '<span class="team-total">Team: <span class="score ' + scoreClass(data.foursome.teamTotalNum) + '">' + data.foursome.teamTotal + '</span></span>';
-                                                        html += '</div>';
-                                                        html += '<table><thead><tr>';
-                                                        html += '<th>Player</th><th>Score</th><th>Thru</th><th class="strokes-col">Strokes</th>';
-                                                        html += '</tr></thead><tbody>';
-                                                        data.foursome.players.forEach(function(p) {
-                                                                                html += '<tr>';
-                                                                                html += '<td class="player-name">' + p.fullName + '</td>';
-                                                                                html += '<td class="score ' + scoreClass(p.scoreNum) + '">' + p.score + '</td>';
-                                                                                html += '<td class="thru">' + (p.thru || '-') + '</td>';
-                                                                                html += '<td class="strokes strokes-col">' + (p.totalStrokes || '-') + '</td>';
-                                                                                html += '</tr>';
-                                                        });
-                                                        html += '</tbody></table></div>';
-                                    }
-
-                                    // Updates
-                                    if (data.updates && data.updates.length > 0) {
-                                                        html += '<div class="updates-card">';
-                                                        html += '<h3>Live Updates</h3>';
-                                                        data.updates.forEach(function(u) {
-                                                                                html += '<div class="update-item">' + u.text + '</div>';
-                                                        });
-                                                        html += '</div>';
-                                    }
-
-                                    document.getElementById('content').innerHTML = html;
-                    }
-
-                    fetchLeaderboard();
-                    // Auto-refresh every 60 seconds
-                    setInterval(fetchLeaderboard, 60000);
-        </script>
-    </body>
-</html>html>
-        </script></footer>
-                    </div></div></h1>
-                        </header>
-    </body>
-        </style></title>
-    </head>
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<link rel="apple-touch-icon" href="/apple-touch-icon.png"/>
+<meta property="og:title" content="Masters Tournament 2026 — 90th Masters">
+<meta property="og:description" content="Grab your clubs and your crew. It's time for real-time trash talk, elite squad drafting, and the race for the Green Jacket.">
+<meta property="og:image" content="https://dreamy-fudge-f9edd2.netlify.app/og-image.png">
+<meta property="og:image:type" content="image/png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://dreamy-fudge-f9edd2.netlify.app/">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Masters Tournament 2026 — 90th Masters">
+<meta name="twitter:description" content="Grab your clubs and your crew. It's time for real-time trash talk, elite squad drafting, and the race for the Green Jacket.">
+<meta name="twitter:image" content="https://dreamy-fudge-f9edd2.netlify.app/og-image.png">
+<title>Masters Tournament 2026 — 90th Masters</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif:wght@400;700;900&amp;family=Work+Sans:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "secondary": "#705d00",
+              "tertiary": "#414343",
+              "on-tertiary-fixed-variant": "#454747",
+              "inverse-primary": "#84d7af",
+              "on-tertiary-container": "#d1d1d1",
+              "primary-fixed": "#a0f4ca",
+              "surface-variant": "#e2e3e0",
+              "surface-container": "#eeeeec",
+              "on-secondary-fixed-variant": "#544600",
+              "error-container": "#ffdad6",
+              "tertiary-fixed-dim": "#c6c6c7",
+              "tertiary-container": "#585a5a",
+              "surface-tint": "#0b6c4b",
+              "surface-container-low": "#f4f4f1",
+              "error": "#ba1a1a",
+              "on-tertiary": "#ffffff",
+              "primary": "#004d34",
+              "on-tertiary-fixed": "#1a1c1c",
+              "surface-container-highest": "#e2e3e0",
+              "on-secondary-fixed": "#221b00",
+              "outline-variant": "#bec9c1",
+              "on-secondary-container": "#6e5c00",
+              "on-primary-fixed-variant": "#005137",
+              "surface-dim": "#dadad8",
+              "surface-container-lowest": "#ffffff",
+              "secondary-container": "#fcd400",
+              "secondary-fixed-dim": "#e9c400",
+              "on-primary-fixed": "#002114",
+              "inverse-surface": "#2f3130",
+              "on-primary-container": "#8fe2ba",
+              "on-surface-variant": "#3f4943",
+              "on-surface": "#1a1c1b",
+              "on-error-container": "#93000a",
+              "primary-fixed-dim": "#84d7af",
+              "surface": "#f9f9f7",
+              "on-primary": "#ffffff",
+              "on-error": "#ffffff",
+              "outline": "#6f7a72",
+              "surface-bright": "#f9f9f7",
+              "on-secondary": "#ffffff",
+              "tertiary-fixed": "#e2e2e2",
+              "primary-container": "#006747",
+              "background": "#f9f9f7",
+              "secondary-fixed": "#ffe16d",
+              "surface-container-high": "#e8e8e6",
+              "on-background": "#1a1c1b",
+              "inverse-on-surface": "#f1f1ef"
+            },
+            fontFamily: {
+              "headline": ["Noto Serif", "serif"],
+              "body": ["Work Sans", "sans-serif"],
+              "label": ["Work Sans", "sans-serif"]
+            },
+            borderRadius: {"DEFAULT": "0.125rem", "lg": "0.25rem", "xl": "0.5rem", "full": "0.75rem"},
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .hero-gradient {
+            background: linear-gradient(155deg, rgba(0, 77, 52, 0.95) 0%, rgba(0, 103, 71, 0.85) 100%);
+        }
+    </style>
+</head>
+<body class="bg-background text-on-surface font-body selection:bg-secondary-container selection:text-on-secondary-container">
+<!-- Hero Wrapper -->
+<main class="relative min-h-screen flex flex-col items-center justify-center overflow-hidden">
+<!-- Background Image Container -->
+<div class="absolute inset-0 z-0">
+<img alt="Lush green golf course fairway at sunset with pine trees" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDL1AkEgRvJMTH7MJScTAbE8jBSTfyjFwk02akoJrbg8pQ72AewG3c1twJJgQ8KDvdusdTAMOt5uY1qQbVgeduPWIMozkLOVW5o83dJ1haekgl1nCDb5sapFORfE5XG7ZmiDZSXsjTgzYZyxg19fAngkIDnNg1svT7UXHHK510mXCscwRUSML2mFik33wZ_ELYVrOGFSPekYENuZ_3YoUjFrJIQKO7r7C_lKsXY8rmtyhwj5myuf_lqUpdkyBINQwSjWO_IZd7km4A"/>
+<div class="absolute inset-0 hero-gradient"></div>
+</div>
+<!-- Content Overlay -->
+<div class="relative z-10 w-full max-w-4xl px-8 text-center flex flex-col items-center space-y-12">
+<!-- Branding Header -->
+<header class="flex flex-col items-center space-y-4">
+<div class="w-20 h-20 bg-secondary-container flex items-center justify-center rounded-xl shadow-lg mb-4">
+<span class="material-symbols-outlined text-primary text-5xl" data-icon="sports_golf">sports_golf</span>
+</div>
+<h1 class="text-secondary font-headline text-2xl md:text-3xl font-black tracking-widest uppercase italic">
+                    Masters Tournament 2026
+                </h1>
+<p class="text-white/70 font-label text-xs uppercase tracking-[0.3em] mt-2">90th Masters</p>
+</header>
+<!-- Main Headline Section -->
+<section class="space-y-6">
+<h2 class="text-white font-headline text-5xl md:text-7xl leading-tight font-bold max-w-2xl mx-auto">
+                    Masters Tournament
+                    2026
+                </h2>
+<p class="text-secondary font-headline text-lg md:text-xl font-bold tracking-widest uppercase mt-2">90th Masters &middot; 2026</p>
+<p class="text-white/90 font-body text-lg md:text-xl font-light tracking-wide max-w-xl mx-auto leading-relaxed">
+                    Grab your clubs and your crew. It’s time for real-time trash talk, elite squad drafting, and the race for the Green Jacket.
+                </p>
+</section>
+<!-- Action Cluster -->
+<div class="flex flex-col sm:flex-row items-center justify-center gap-6 w-full max-w-2xl pt-4">
+<a class='inline-flex items-center justify-center gap-2 w-full sm:w-auto px-10 py-4 bg-secondary-container text-on-secondary-container font-headline font-bold text-sm text-center tracking-widest uppercase rounded-lg shadow-xl hover:bg-secondary-fixed transition-all active:scale-[0.98]' href='/stitch/player_registration_rules_interactive/code'>
+<span class="material-symbols-outlined text-lg" style="font-variation-settings: 'FILL' 1;">person_add</span>
+                    Register Your Foursome
+                </a>
+<a class='inline-flex items-center justify-center gap-2 w-full sm:w-auto px-10 py-4 border-2 border-white/40 text-white font-headline font-bold text-sm text-center tracking-widest uppercase rounded-lg hover:bg-white/10 transition-all backdrop-blur-sm active:scale-[0.98]' href='/stitch/team_leaderboard/code'>
+<span class="material-symbols-outlined text-lg" style="font-variation-settings: 'FILL' 1;">leaderboard</span>
+                    The Leaderboard
+                </a>
+<a class='inline-flex items-center justify-center gap-2 w-full sm:w-auto px-10 py-4 border-2 border-white/40 text-white font-headline font-bold text-sm text-center tracking-widest uppercase rounded-lg hover:bg-white/10 transition-all backdrop-blur-sm active:scale-[0.98]' href='/stitch/green_jacket_crew_chat_interactive/code'>
+<span class="material-symbols-outlined text-lg" style="font-variation-settings: 'FILL' 1;">chat_bubble</span>
+                    The Clubhouse
+                </a>
+<a class='inline-flex items-center justify-center gap-2 w-full sm:w-auto px-10 py-4 border-2 border-yellow-400/60 text-yellow-300 font-headline font-bold text-sm text-center tracking-widest uppercase rounded-lg hover:bg-yellow-400/10 transition-all backdrop-blur-sm active:scale-[0.98]' href='/winners'>
+<span class="material-symbols-outlined text-lg" style="font-variation-settings: 'FILL' 1;">emoji_events</span>
+                    Winners
+                </a>
+</div>
+<!-- Meta/Footnote Style -->
+<div class="pt-8 flex items-center space-x-8">
+<div class="flex flex-col items-center">
+<span class="text-secondary font-headline text-3xl font-bold">18</span>
+<span class="text-white/70 font-label text-[10px] uppercase tracking-[0.25em] font-medium">Holes of Excellence</span>
+</div>
+<div class="h-10 w-px bg-white/20"></div>
+<div class="flex flex-col items-center">
+<span class="text-secondary font-headline text-3xl font-bold">April 9-12, 2026</span>
+<span class="text-white/70 font-label text-[10px] uppercase tracking-[0.25em] font-medium">Tournament Year</span>
+</div>
+<div class="h-10 w-px bg-white/20"></div>
+<div class="flex flex-col items-center">
+<span class="text-secondary font-headline text-3xl font-bold">90th</span>
+<span class="text-white/70 font-label text-[10px] uppercase tracking-[0.25em] font-medium">Masters</span>
+</div>
+</div>
+</div>
+<!-- Decorative Elements -->
+<div class="absolute bottom-12 left-1/2 -translate-x-1/2 flex flex-col items-center space-y-2 opacity-60">
+<span class="text-white font-label text-[10px] uppercase tracking-export tracking-[0.4em]">Scroll to Explore</span>
+<div class="w-px h-16 bg-gradient-to-b from-white to-transparent"></div>
+</div>
+</main>
+<!-- Heritage Card Grid (Supporting Content) -->
+<section class="bg-surface py-32 px-8">
+<div class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-12">
+<!-- Feature Card 1 -->
+<div class="flex flex-col space-y-6">
+<div class="bg-white p-10 rounded-xl border-t-4 border-secondary shadow-sm">
+<span class="material-symbols-outlined text-secondary mb-6 text-3xl" data-icon="stadium">stadium</span>
+<h3 class="font-headline text-2xl font-bold text-primary mb-4">Live Grounds Access</h3>
+<p class="text-on-surface-variant text-base leading-relaxed font-light">
+                        Experience every fairway and green with our proprietary augmented grounds view, delivering unparalleled visual clarity.
+                    </p>
+</div>
+</div>
+<!-- Feature Card 2 -->
+<div class="flex flex-col space-y-6">
+<div class="bg-white p-10 rounded-xl border-t-4 border-secondary shadow-sm">
+<span class="material-symbols-outlined text-secondary mb-6 text-3xl" data-icon="groups">groups</span>
+<h3 class="font-headline text-2xl font-bold text-primary mb-4">Member Chat</h3>
+<p class="text-on-surface-variant text-base leading-relaxed font-light">
+                        Join the sophisticated conversation in our moderated digital clubhouse with fellow patrons and esteemed members.
+                    </p>
+</div>
+</div>
+<!-- Feature Card 3 -->
+<div class="flex flex-col space-y-6">
+<div class="bg-white p-10 rounded-xl border-t-4 border-secondary shadow-sm">
+<span class="material-symbols-outlined text-secondary mb-6 text-3xl" data-icon="leaderboard">leaderboard</span>
+<h3 class="font-headline text-2xl font-bold text-primary mb-4">Elite Analytics</h3>
+<p class="text-on-surface-variant text-base leading-relaxed font-light">
+                        Deep-dive statistics and predictive modeling for every player in the field, crafted for the discerning analyst.
+                    </p>
+</div>
+</div>
+</div>
+</section>
+<!-- Minimal Footer -->
+<footer class="bg-white border-t border-outline-variant/20 py-16 px-8">
+<div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center space-y-8 md:space-y-0">
+<p class="font-headline font-black text-primary text-2xl uppercase tracking-tighter italic">
+                Masters Tournament 2026 — 90th Masters
+            </p>
+<nav class="flex space-x-12">
+<a class="font-label text-[12px] font-semibold uppercase tracking-widest text-on-surface-variant hover:text-secondary transition-colors" href="#">Privacy</a>
+<a class="font-label text-[12px] font-semibold uppercase tracking-widest text-on-surface-variant hover:text-secondary transition-colors" href="#">Terms</a>
+<a class="font-label text-[12px] font-semibold uppercase tracking-widest text-on-surface-variant hover:text-secondary transition-colors" href="#">Support</a>
+</nav>
+<p class="font-label text-[11px] text-on-surface-variant/50 uppercase tracking-[0.2em]">
+                © 2026 Masters Tournament 2026. All Rights Reserved.
+            </p>
+</div>
+</footer>
+<!-- Bottom Nav (Mobile Only) -->
+<nav class="md:hidden fixed bottom-0 left-0 w-full flex justify-around items-center px-4 pb-6 pt-2 bg-[#f9f9f7]/80 backdrop-blur-md z-50 border-t border-stone-200/20 shadow-[0px_-10px_30px_rgba(0,33,20,0.04)]">
+<a class="flex flex-col items-center justify-center text-stone-500 px-5 py-2 hover:text-[#705d00] transition-colors" href="/stitch/player_registration_rules_interactive/code">
+<span class="material-symbols-outlined mb-1">person_add</span>
+<span class="font-sans text-[11px] uppercase tracking-wider font-semibold">Register</span>
+</a>
+<a class="flex flex-col items-center justify-center text-stone-500 px-5 py-2 hover:text-[#705d00] transition-colors" href="/stitch/team_leaderboard/code">
+<span class="material-symbols-outlined mb-1">leaderboard</span>
+<span class="font-sans text-[11px] uppercase tracking-wider font-semibold">Leaderboard</span>
+</a>
+<a class="flex flex-col items-center justify-center text-yellow-600 px-5 py-2 hover:text-yellow-500 transition-colors" href="/winners">
+<span class="material-symbols-outlined mb-1" style="font-variation-settings: 'FILL' 1;">emoji_events</span>
+<span class="font-sans text-[11px] uppercase tracking-wider font-semibold">Winners</span>
+</a>
+<a class="flex flex-col items-center justify-center text-stone-500 px-5 py-2 hover:text-[#705d00] transition-colors" href="/stitch/green_jacket_crew_chat_interactive/code">
+<span class="material-symbols-outlined mb-1">chat_bubble</span>
+<span class="font-sans text-[11px] uppercase tracking-wider font-semibold">Clubhouse</span>
+</a>
+</nav>
+</body></html>
